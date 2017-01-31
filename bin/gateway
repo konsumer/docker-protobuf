@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+# build and run a gRPC JSON/HTTP gateway
+
 # $1 - proto file
 # $2 - dir for generated code
 # $3 - name of import for API definition

@@ -3,23 +3,16 @@
 # build and run a gRPC JSON/HTTP gateway
 
 # $1 - proto file
-# $2 - dir for generated code
-# $3 - name of import for API definition
+# $2 - name of import for API definition
 
 # Generate gRPC stub
-protoc -I/usr/local/include -I. \
- -I$GOPATH/src \
- -I$GOPATH/src/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis \
- --go_out=Mgoogle/api/annotations.proto=github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis/google/api,plugins=grpc:$2 $1
+protoc -I. -I/protobuf --go_out=Mgoogle/api/annotations.proto=github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis/google/api,plugins=grpc:/tmp $1
 
 # Generate reverse-proxy
-protoc -I/usr/local/include -I. \
- -I$GOPATH/src \
- -I$GOPATH/src/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis \
- --grpc-gateway_out=logtostderr=true:$2 $1
+protoc -I. -I/protobuf --grpc-gateway_out=logtostderr=true:/tmp $1
 
 # Write an entrypoint
-cat << EOM
+cat > /tmp/main.go << EOM
 package main
 import (
  "flag"
@@ -30,7 +23,7 @@ import (
  "github.com/grpc-ecosystem/grpc-gateway/runtime"
  "google.golang.org/grpc"
 
- gw "$3"
+ gw "$2"
 )
 
 var (
@@ -61,8 +54,8 @@ func main() {
    glog.Fatal(err)
  }
 }
-EOM > ${2}/main.go
+EOM
 
 # build & run gateway
-go build ${2}/main.go -o ${2}/gateway
-${2}/gateway
+cd /tmp
+go run main.go

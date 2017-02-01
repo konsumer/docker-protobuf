@@ -1,12 +1,11 @@
-FROM golang:alpine
+FROM alpine:3.4
 
 MAINTAINER David Konsumer <konsumer@jetboystudio.com>
 
-ADD . /src
-WORKDIR /src
-VOLUME /src
+ENV GRPC_VERSION=1.0.1              \
+    PROTOBUF_VERSION=3.1.0          \
+    SWIFT_PROTOBUF_VERSION=0.9.24   \
+    GOPATH=/go
 
-ENV PROTOBUF_TAG v3.2.0
-ENV GOPATH=/go
-ENV PATH=/src/bin:${GOPATH}/bin:${PATH}
-RUN ./build.sh
+COPY bin/* /usr/local/bin/
+RUN /usr/local/bin/setup_image

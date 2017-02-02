@@ -3,11 +3,11 @@
 [on docker hub](https://registry.hub.docker.com/u/konsumer/protoc)
 
 ## What's included:
-- protobuf 3.1.0
-- gRPC 1.0.1
-- Google Well Known Types are automatically included (via `google/`)
+- protobuf v3.1.0
+- gRPC
+- Google Well Known Types & all API types are automatically included (via `google/`)
 - [protoc-gen-doc](https://github.com/estan/protoc-gen-doc)
-- Go related tools compiled with 1.7, gRPC support is built-in:
+- Go related tools compiled with gRPC support is built-in:
   - github.com/golang/protobuf/protoc-gen-go
   - github.com/grpc-ecosystem/grpc-gateway/protoc-gen-swagger
   - github.com/grpc-ecosystem/grpc-gateway/protoc-gen-grpc-gateway
@@ -26,7 +26,7 @@
 
 ## Usage
 ```
-$ docker run --rm konsumer/protoc --help
+$ docker run --rm konsumer/protoc
 Usage: /usr/bin/protoc [OPTION] PROTO_FILES
 ```
 
